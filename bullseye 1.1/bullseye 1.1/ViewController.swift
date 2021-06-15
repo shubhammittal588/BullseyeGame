@@ -17,7 +17,7 @@ class ViewController: UIViewController {
     var targetValue = 0
     var initialScore = 0
     var initialRound = 5
-    
+    var difference: Int = 0
     
     override func viewDidLoad() {
 
@@ -28,19 +28,17 @@ class ViewController: UIViewController {
     }
     @IBAction func showAlert(){
         if (initialRound != 0) {
-            let message = "The value of the slider is \(currentValue)" + "\n The target value is\(targetValue)"
+            updateScore()
+            let message = "You scored \(difference) points"
             
-            let alert = UIAlertController(title: "Hello World!", message: message, preferredStyle: .alert)
+            let alert = UIAlertController(title: "Bullseye!", message: message, preferredStyle: .alert)
             
             let action = UIAlertAction(title: "Okay", style: .default, handler: nil)
             
             alert.addAction(action)
             present(alert, animated: true, completion: nil)
             
-            if currentValue == targetValue {
-                updateScore()
-            }
-            
+            updateScore()
             startNewRound()
             updateLabel()
             updateRound()
@@ -85,12 +83,16 @@ class ViewController: UIViewController {
         targetLabel.text = String(targetValue)
     }
     func updateScore(){
-        initialScore += 10
+        
+        difference = 10 - abs(currentValue - targetValue)
+        initialScore += difference/2
         score.text = String(initialScore)
     }
     func updateRound(){
-        initialRound -= 1
-        round.text = String(initialRound)
+            initialRound -= 1
+            round.text = String(initialRound)
+        
+        
     }
     
 }
